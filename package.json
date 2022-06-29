@@ -21,7 +21,7 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/liyuec/easyExcel.git",
+  "repository": "https://github.com/liyuec/easyExcelJs.git",
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",

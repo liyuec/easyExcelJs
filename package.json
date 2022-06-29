@@ -9,7 +9,9 @@
   },
   "keywords": [
     "easy excel",
-    "beautiful excel"
+    "beautiful excel",
+    "excel for javascript",
+    "javascript"
   ],
   "publishConfig": {
     "access": "public"
@@ -21,7 +23,10 @@
   "files": [
     "dist"
   ],
-  "repository": "https://github.com/liyuec/easyExcelJs.git",
+  "repository": {
+    "type":"git",
+    "url": "https://github.com/liyuec/easyExcelJs.git",
+  },
   "dependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.4",

@@ -25,7 +25,7 @@
   ],
   "repository": {
     "type":"git",
-    "url": "https://github.com/liyuec/easyExcelJs.git",
+    "url": "git@github.com:liyuec/easyExcelJs.git"
   },
   "dependencies": {
     "babel-core": "^6.26.3",

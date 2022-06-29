@@ -1,5 +1,5 @@
 {
-  "name": "easy-excel",
+  "name": "easyexceljs",
   "version": "1.0.0",
   "description": "简单的操作生成漂亮的EXCEL，快速上手。提供漂亮模板直接使用",
   "main": "dist/index.umd.min.js",
@@ -11,7 +11,8 @@
     "easy excel",
     "beautiful excel",
     "excel for javascript",
-    "javascript"
+    "javascript",
+    "excel"
   ],
   "publishConfig": {
     "access": "public"
@@ -24,7 +25,7 @@
     "dist"
   ],
   "repository": {
-    "type":"git",
+    "type": "git",
     "url": "git@github.com:liyuec/easyExcelJs.git"
   },
   "dependencies": {

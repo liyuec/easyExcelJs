@@ -1,4 +1,7 @@
 # easyExcelJs
+
+![easyExcelJs](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/exceljslogo.png)
+
 简单的操作生成漂亮的EXCEL，快速上手。提供漂亮模板直接使用
 
 
@@ -24,7 +27,7 @@ npm install exceljs -S
 npm install file-saver -S
 ```
 
-## 快速开始 生成一个Excel  以vue项目里使用为例
+## 快速开始 生成一个Excel  以vue项目里使用为例   
 ```javascript
 import {createExcelByOneSheet,ExcelStyleTemplate,getCellPosLetter} from "easyexceljs"
 
@@ -73,6 +76,28 @@ methods:{
 
 
 ```
+
+## 1.0.0提供的3个可立即使用的模板
+![模板展示](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/ExcelStyleTemplate_first.png)
+```javascript
+//引入提供模板Style
+import {ExcelStyleTemplate} from "easyexceljs"
+
+//一共三个模板
+const red = ExcelStyleTemplate.red;
+const blue = ExcelStyleTemplate.blue;
+const green = ExcelStyleTemplate.green;
+```
+
+
+### red模板最终样式
+![red模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/red.png)
+
+### blue模板最终样式
+![blue模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/blue.png)
+
+### green模板最终样式
+![green模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/green.png)
 
 ## 接下来准备
 -   整行样式设置（字体，字号，颜色，背景色）

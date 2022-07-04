@@ -4,6 +4,7 @@
 
 简单的操作生成漂亮的EXCEL，快速上手。提供漂亮模板直接使用
 
+### 若存在疑问和支持，请邮件2362259057#qq.com('#'替换为'@')
 
 <p align="left">
     <img src="https://img.shields.io/badge/size-6.56kb-blue" />

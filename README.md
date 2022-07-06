@@ -7,6 +7,7 @@
 ### 若存在疑问和支持，请邮件2362259057#qq.com('#'替换为'@')
 
 <p align="left">
+    <img src="https://www.oscs1024.com/platform/badge/liyuec/easyExcelJs.svg" />
     <img src="https://img.shields.io/badge/size-6.56kb-blue" />
     <img src="https://img.shields.io/badge/license-MIT-orange" />
     <img src="https://img.shields.io/badge/converage-50%25-red" />

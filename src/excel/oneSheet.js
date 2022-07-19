@@ -1,8 +1,9 @@
 const ExcelJS = require('exceljs');
 import {saveAs} from "file-saver";
-import {getCellPosLetter,conWar,conErr,conLog,_setCellStyle,_setRowStyle,_isBasicType,_getWorkBook,getType} from '../help/function';
+import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setRowStyle,_isBasicType,_getWorkBook,getType,isObject} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
 import {baseModel} from './excelDto';
+import {getExcelCellStyle} from '../template/index';
 
 /*
     只创建一个sheet的excel，以后版本提供多个sheet
@@ -75,6 +76,8 @@ function createExcelByOneSheet(options){
     */
     this.rowStyleOptions = [];
     this.cellStyleOptions = [];
+    //保存的cell设置fn
+    this.setCellByWhere = [];
 }
 
 /*
@@ -109,7 +112,12 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
         })
         
         _setRowStyle(worksheet,this.rowStyleOptions);
-        _setCellStyle(worksheet,this.cellStyleOptions);
+
+        //设置列样式    如果有
+        if(this.setCellByWhere.length > 0){
+            _setCellStyleByWhere.call(this,worksheet)
+        }
+        //_setCellStyle(worksheet,this.cellStyleOptions);
         
         this.excelFileName = this.excelFileName.lastIndexOf('.xlsx') > -1 ? this.excelFileName : this.excelFileName + '.xlsx';
     
@@ -118,6 +126,52 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
             saveAs(blob, this.excelFileName);
         }))
     })
+}
+
+
+/*
+    根据条件设置 哪些列需要 样式   不包含第1行(head的样式)
+
+    若不传入cellStyle 则进行默认的样式填充，（黑边框）
+    where:{
+        valueKey: key Value
+        whereType: < | > | == | != | === | !== | indexOf | unIndexOf
+        whereValue: number | string
+    }
+*/
+createExcelByOneSheet.prototype.setCellStyleByWhere = function(where,cellStyle = undefined){
+    //如果没有设置任何样式  则默认样式
+    if(!cellStyle){
+        cellStyle = new getExcelCellStyle()
+    }
+
+    let _where = where;
+
+    //判断类型  且只拿自己本身的属性
+    if(isObject(_where)){
+         this.setCellByWhere.push({
+            where:_where,
+            cellStyle:cellStyle
+         })
+    }else{
+        conErr(ALERT_MESSAGE.OBJECT_TYPE)
+        return;
+    }
+
+    return this;
+}
+
+/*
+    
+*/
+createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellIndex,cellStyle = undefined){
+    //如果没有设置任何样式  则默认样式
+    if(!cellStyle){
+        cellStyle = new getExcelCellStyle()
+    }
+
+
+
 }
 
 

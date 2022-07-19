@@ -8,7 +8,30 @@ function baseModel(options){
 }
 
 
+/*
+    列样式的DTO
+*/
+function CellStyleDTO(){
+    let obj = new Object(
+        {
+            cellIndex:1,
+            rowIndex:1,
+            cellName:'',
+            BoderColor:'',
+            font:{
+                name:'',
+                size:'',
+                bold:'',
+                color:''
+            }
+        }
+    )
+
+    return obj;
+}
+
+
 
 export {
-    baseModel
+    baseModel,CellStyleDTO
 }

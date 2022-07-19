@@ -1,3 +1,5 @@
+import {CellStyleDTO} from '../excel/excelDto'
+
 /*
     argba 在线颜色 转换 https://sunpma.com/other/rgb/
 */
@@ -70,6 +72,51 @@ const ExcelStyleTemplate = {
     }
 }
 
+const getExcelCellStyle = function(colorTemplate){
+    var cellStyle = new CellStyleDTO();
+    switch(colorTemplate){
+        case "red":
+            cellStyle.BoderColor = 'FFFF0000'
+            cellStyle.font = {
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        break;
+        case "blue":
+            cellStyle.BoderColor = 'ff5faee3'
+            cellStyle.font = {
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        break;
+        case "green":
+            cellStyle.BoderColor = 'ff48c9b0'
+            cellStyle.font = {
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        break;
+        default:
+            cellStyle.BoderColor = ''
+            cellStyle.font = {
+                name:'Arial',
+                size:12,
+                bold:false,
+                color:'ff000000'
+            }
+        break;
+    }
+
+    return cellStyle;
+}
+
+
 export {
-    ExcelStyleTemplate
+    ExcelStyleTemplate,getExcelCellStyle
 }

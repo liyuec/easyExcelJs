@@ -1,4 +1,5 @@
 const ExcelJS = require('exceljs');
+
 //import {saveAs} from "file-saver";
 
 /*
@@ -80,11 +81,73 @@ function _setCellStyle(worksheet,cellStyleOptions){
         if(i.font){
             worksheet.getCell(_cellName).font = {
                 name: i.font.name || 'Arial Black',
-                color: { argb: i.font.color || 'FF00FF00' },
+                color: { argb: i.font.color || '' },
                 family: 2,
-                size: i.font.size || 18
+                size: i.font.size || 11
             };
         }
+    })
+}
+
+
+//通过where条件设置 cell样式
+function _setCellStyleByWhere(worksheet){
+    this.setCellByWhere.forEach(i=>{
+        let {where,cellStyle} = i;
+        let {valueKey,whereType,whereValue} = where;
+
+        let cellIndex = 1,rowIndexArr = [];
+
+        //找列数
+        for(let i =0;i<this.sheetColumnsData.length;i++){
+            if(this.sheetColumnsData[i][field] === valueKey){
+                cellIndex += i;
+                break;
+            }
+        }
+
+        //找行数
+        this.sheetRowsData.forEach((rowI,rowIndex) =>{
+            let _v = rowI[valueKey],
+            rowIndex = 0;
+            switch(whereType.trim().toLowerCase()){
+                case "<":
+                    rowIndex = _v < whereValue ? rowIndex + 1 : 0
+                break;
+                case ">":
+                    rowIndex = _v > whereValue ? rowIndex + 1 : 0
+                break;
+                case "==":
+                    rowIndex = _v == whereValue ? rowIndex + 1 : 0
+                break;
+                case "!=":
+                    rowIndex = _v != whereValue ? rowIndex + 1 : 0
+                break;
+                case "===":
+                    rowIndex = _v === whereValue ? rowIndex + 1 : 0
+                break;
+                case "!==":
+                    rowIndex = _v !== whereValue ? rowIndex + 1 : 0
+                break;
+                case "indexof":
+                    rowIndex = _v.indexof(whereValue) > -1 ? rowIndex + 1 : 0
+                break;
+                case "unindexof":
+                    rowIndex = _v.indexof(whereValue) === -1 ? rowIndex + 1 : 0
+                break;
+            }
+            if(rowIndex > 0){
+                rowIndexArr.push(rowIndex);
+            }
+        })
+
+        //当前where条件下的 setCell 样式
+        rowIndexArr.forEach(rowIndex =>{
+            cellStyle.cellIndex = cellIndex;
+            cellStyle.rowIndex = rowIndex;
+            _setCellStyle(worksheet,cellStyle)
+        })
+        
     })
 }
 
@@ -144,9 +207,15 @@ function getType(target){
     return _toString.call(target).slice(8,-1);
 }
 
+function isObject(target){
+    return target !== null && _toString.call(target).slice(8,-1) === 'Object'
+}
+
 
 
 export {
     getCellPosLetter,conWar,conErr,conLog,
-    _setCellStyle,_setRowStyle,_isBasicType,_getWorkBook,getType
+    _setCellStyle,_setRowStyle,_setCellStyleByWhere,
+    _isBasicType,_getWorkBook,getType,
+    isObject
 }

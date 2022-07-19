@@ -1,6 +1,6 @@
 const ExcelJS = require('exceljs');
 import {saveAs} from "file-saver";
-import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setRowStyle,_isBasicType,_getWorkBook,getType,isObject} from '../help/function';
+import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,_setRowStyle,_isBasicType,_getWorkBook,getType,isObject} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
 import {baseModel} from './excelDto';
 import {getExcelCellStyle} from '../template/index';
@@ -76,9 +76,11 @@ function createExcelByOneSheet(options){
     */
     this.rowStyleOptions = [];
     this.cellStyleOptions = [];
-    //保存的cell设置fn
+    //保存的cell样式设置    (setCellStyleByWhere 方法进入)
     this.setCellByWhere = [];
-}
+    //保存 cell样式设置   (setCellStyleByRowCellIndex 方法进入)
+    this.setCellByRowCellIndex = []
+}   
 
 /*
     获取 column 头部的数据结构
@@ -116,6 +118,11 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
         //设置列样式    如果有
         if(this.setCellByWhere.length > 0){
             _setCellStyleByWhere.call(this,worksheet)
+        }
+
+        //根据 rowIndex,cellIndex 设置列样式
+        if(this.setCellByRowCellIndex.length > 0){
+            _setCellByRowCellIndex.call(this,worksheet)
         }
         //_setCellStyle(worksheet,this.cellStyleOptions);
         
@@ -162,15 +169,24 @@ createExcelByOneSheet.prototype.setCellStyleByWhere = function(where,cellStyle =
 }
 
 /*
-    
+    通过cell和row的索引设置列样式
 */
 createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellIndex,cellStyle = undefined){
     //如果没有设置任何样式  则默认样式
     if(!cellStyle){
-        cellStyle = new getExcelCellStyle()
+        cellStyle = new getExcelCellStyle();
     }
 
-
+    if(rowCellIndex.constructor !== Array){
+        rowCellIndex.forEach(i=>{
+            this.setCellByRowCellIndex.push({
+                ROW_CELL_INDEX:i,
+                cellStyle:cellStyle
+            })
+        })
+    }else{
+        conErr(ALERT_MESSAGE.ROWCELL_INDEX_TYPE)
+    }
 
 }
 

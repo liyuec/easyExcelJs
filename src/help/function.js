@@ -89,6 +89,10 @@ function _setCellStyle(worksheet,cellStyleOptions){
     })
 }
 
+//通过 rowIndex ,cellIndex 设置样式
+function _setCellByRowCellIndex(worksheet){
+
+}
 
 //通过where条件设置 cell样式
 function _setCellStyleByWhere(worksheet){
@@ -215,7 +219,7 @@ function isObject(target){
 
 export {
     getCellPosLetter,conWar,conErr,conLog,
-    _setCellStyle,_setRowStyle,_setCellStyleByWhere,
+    _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,
     _isBasicType,_getWorkBook,getType,
     isObject
 }

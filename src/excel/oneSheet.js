@@ -169,7 +169,7 @@ createExcelByOneSheet.prototype.setCellStyleByWhere = function(where,cellStyle =
 }
 
 /*
-    通过cell和row的索引设置列样式
+    通过cell和row的索引设置列样式   rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
 */
 createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellIndex,cellStyle = undefined){
     //如果没有设置任何样式  则默认样式
@@ -177,7 +177,7 @@ createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellInd
         cellStyle = new getExcelCellStyle();
     }
 
-    if(rowCellIndex.constructor !== Array){
+    if(rowCellIndex.constructor === Array){
         rowCellIndex.forEach(i=>{
             this.setCellByRowCellIndex.push({
                 ROW_CELL_INDEX:i,
@@ -186,7 +186,10 @@ createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellInd
         })
     }else{
         conErr(ALERT_MESSAGE.ROWCELL_INDEX_TYPE)
+        return;
     }
+
+    return this;
 
 }
 

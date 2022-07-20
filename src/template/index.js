@@ -76,37 +76,37 @@ const getExcelCellStyle = function(colorTemplate){
     var cellStyle = new CellStyleDTO();
     switch(colorTemplate){
         case "red":
-            cellStyle.BoderColor = 'FFFF0000'
+            cellStyle.BoderColor = 'ffff0000'
             cellStyle.font = {
-                name:'Arial',
+                name:'Malgun Gothic Semilight',
                 size:12,
                 bold:true,
-                color:'ffffffff'
+                color:'ffff0000'
             }
         break;
         case "blue":
             cellStyle.BoderColor = 'ff5faee3'
             cellStyle.font = {
-                name:'Arial',
+                name:'Malgun Gothic Semilight',
                 size:12,
                 bold:true,
-                color:'ffffffff'
+                color:'ff5faee3'
             }
         break;
         case "green":
             cellStyle.BoderColor = 'ff48c9b0'
             cellStyle.font = {
-                name:'Arial',
+                name:'Malgun Gothic Semilight',
                 size:12,
                 bold:true,
-                color:'ffffffff'
+                color:'ff48c9b0'
             }
         break;
         default:
             cellStyle.BoderColor = ''
             cellStyle.font = {
-                name:'Arial',
-                size:12,
+                name:'宋体',
+                size:11,
                 bold:false,
                 color:'ff000000'
             }

@@ -80,10 +80,12 @@ function _setCellStyle(worksheet,cellStyleOptions){
         }
         if(i.font){
             worksheet.getCell(_cellName).font = {
-                name: i.font.name || 'Arial Black',
+                name: i.font.name || '',
                 color: { argb: i.font.color || '' },
                 family: 2,
-                size: i.font.size || 11
+                size: i.font.size || 11,
+                bold: typeof (i.font.bold) == 'boolean' ? i.font.bold : ''
+                //bold:true
             };
         }
     })
@@ -91,7 +93,16 @@ function _setCellStyle(worksheet,cellStyleOptions){
 
 //通过 rowIndex ,cellIndex 设置样式
 function _setCellByRowCellIndex(worksheet){
-    
+    this.setCellByRowCellIndex.forEach(i => {
+        // i 就是 ROW_CELL_INDEX 和 cellStyle == [rowIndex,cellIndex];
+        let [rowIndex,cellIndex] = i.ROW_CELL_INDEX,
+        _cellStyle =  i.cellStyle;
+
+        _cellStyle.cellIndex = cellIndex || 1;
+        _cellStyle.rowIndex = rowIndex || 1;
+        _setCellStyle(worksheet,[_cellStyle])
+
+    })
 }
 
 //通过where条件设置 cell样式
@@ -104,7 +115,8 @@ function _setCellStyleByWhere(worksheet){
 
         //找列数
         for(let i =0;i<this.sheetColumnsData.length;i++){
-            if(this.sheetColumnsData[i][field] === valueKey){
+            //console.log('setCell:',this.sheetColumnsData[i],valueKey)
+            if(this.sheetColumnsData[i]['key'] == valueKey){
                 cellIndex += i;
                 break;
             }
@@ -113,43 +125,44 @@ function _setCellStyleByWhere(worksheet){
         //找行数
         this.sheetRowsData.forEach((rowI,rowIndex) =>{
             let _v = rowI[valueKey],
-            rowIndex = 0;
+            _rowIndex = 0;
             switch(whereType.trim().toLowerCase()){
                 case "<":
-                    rowIndex = _v < whereValue ? rowIndex + 1 : 0
+                    _rowIndex = _v < whereValue ? rowIndex + 1 : 0
                 break;
                 case ">":
-                    rowIndex = _v > whereValue ? rowIndex + 1 : 0
+                    _rowIndex = _v > whereValue ? rowIndex + 1 : 0
                 break;
                 case "==":
-                    rowIndex = _v == whereValue ? rowIndex + 1 : 0
+                    _rowIndex = _v == whereValue ? rowIndex + 1 : 0
                 break;
                 case "!=":
-                    rowIndex = _v != whereValue ? rowIndex + 1 : 0
+                    _rowIndex = _v != whereValue ? rowIndex + 1 : 0
                 break;
                 case "===":
-                    rowIndex = _v === whereValue ? rowIndex + 1 : 0
+                    _rowIndex = _v === whereValue ? rowIndex + 1 : 0
                 break;
                 case "!==":
-                    rowIndex = _v !== whereValue ? rowIndex + 1 : 0
+                    _rowIndex = _v !== whereValue ? rowIndex + 1 : 0
                 break;
                 case "indexof":
-                    rowIndex = _v.indexof(whereValue) > -1 ? rowIndex + 1 : 0
+                    _rowIndex = _v.indexof(whereValue) > -1 ? rowIndex + 1 : 0
                 break;
                 case "unindexof":
-                    rowIndex = _v.indexof(whereValue) === -1 ? rowIndex + 1 : 0
+                    _rowIndex = _v.indexof(whereValue) === -1 ? rowIndex + 1 : 0
                 break;
             }
-            if(rowIndex > 0){
-                rowIndexArr.push(rowIndex);
+            if(_rowIndex > 0){
+                rowIndexArr.push(_rowIndex);
             }
         })
 
         //当前where条件下的 setCell 样式
+        //console.log('rowIndexArr:',rowIndexArr,cellIndex)
         rowIndexArr.forEach(rowIndex =>{
             cellStyle.cellIndex = cellIndex;
             cellStyle.rowIndex = rowIndex;
-            _setCellStyle(worksheet,cellStyle)
+            _setCellStyle(worksheet,[cellStyle])
         })
         
     })

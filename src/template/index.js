@@ -79,7 +79,7 @@ const getExcelCellStyle = function(colorTemplate){
             cellStyle.BoderColor = 'ffff0000'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
-                size:12,
+                size:11,
                 bold:true,
                 color:'ffff0000'
             }
@@ -88,7 +88,7 @@ const getExcelCellStyle = function(colorTemplate){
             cellStyle.BoderColor = 'ff5faee3'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
-                size:12,
+                size:11,
                 bold:true,
                 color:'ff5faee3'
             }
@@ -97,7 +97,7 @@ const getExcelCellStyle = function(colorTemplate){
             cellStyle.BoderColor = 'ff48c9b0'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
-                size:12,
+                size:11,
                 bold:true,
                 color:'ff48c9b0'
             }

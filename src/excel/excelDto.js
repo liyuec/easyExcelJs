@@ -4,7 +4,7 @@ function baseModel(options){
     this.created = options.created || new Date();
     this.modified = options.modified || new Date();
     this.lastPrinted = options.lastPrinted || new Date();
-    this.version = '1.1.0';
+    this.version = '1.1.6';
 }
 
 

@@ -18,7 +18,7 @@ const ExcelStyleTemplate = {
         cellStyle:{
             cellName:'',
             BorderColor: 'FFFF0000',
-            BorderStyle:'hair',
+            BorderStyle:'thin',
             font:{
                 name:'Arial',
                 size:11,
@@ -41,7 +41,7 @@ const ExcelStyleTemplate = {
         cellStyle:{
             cellName:'',
             BorderColor: 'ff48c9b0',
-            BorderStyle:'hair',
+            BorderStyle:'thin',
             font:{
                 name:'Arial',
                 size:11,
@@ -64,7 +64,7 @@ const ExcelStyleTemplate = {
         cellStyle:{
             cellName:'',
             BorderColor: 'ffff0000',
-            BorderStyle:'hair',
+            BorderStyle:'thin',
             font:{
                 name:'Arial',
                 size:11,
@@ -80,7 +80,7 @@ const getExcelCellStyle = function(colorTemplate){
     switch(colorTemplate){
         case "red":
             cellStyle.BorderColor = 'ffff0000'
-            cellStyle.BorderStyle = 'hair'
+            cellStyle.BorderStyle = 'thin'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
                 size:11,
@@ -90,7 +90,7 @@ const getExcelCellStyle = function(colorTemplate){
         break;
         case "blue":
             cellStyle.BorderColor = 'ff5faee3'
-            cellStyle.BorderStyle = 'hair'
+            cellStyle.BorderStyle = 'thin'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
                 size:11,
@@ -100,7 +100,7 @@ const getExcelCellStyle = function(colorTemplate){
         break;
         case "green":
             cellStyle.BorderColor = 'ff48c9b0'
-            cellStyle.BorderStyle = 'hair'
+            cellStyle.BorderStyle = 'thin'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
                 size:11,

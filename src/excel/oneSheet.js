@@ -134,7 +134,6 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
         }
         
         this.excelFileName = this.excelFileName.lastIndexOf('.xlsx') > -1 ? this.excelFileName : this.excelFileName + '.xlsx';
-    
         workbook.xlsx.writeBuffer().then((data => {
             const blob = new Blob([data], {type: ''});
             saveAs(blob, this.excelFileName);
@@ -226,6 +225,14 @@ createExcelByOneSheet.prototype.setCellNoteTextByRowCellIndex = function(rowCell
     return this;
 }
 
+/*
+    根据行数,列数设置 类型, 百分比
+    rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+    noteTexts : [string,string] 
 
+*/
+createExcelByOneSheet.prototype.setPercentageByIndex = function(rowCellIndex){
+
+}
 
 export default createExcelByOneSheet;

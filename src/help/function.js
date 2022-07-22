@@ -70,12 +70,16 @@ function _setCellStyle(worksheet,cellStyleOptions){
         let _cellName = '';
         
         _cellName = i.cellName ? i.cellName : getCellPosLetter(i.cellIndex || 1,i.rowIndex || 1);
-        if(i.BoderColor){
+        if(i.BorderColor){
             worksheet.getCell(_cellName).border = {
-                top: {style:'thick', color: {argb:i.BoderColor}},
-                left: {style:'thick', color: {argb:i.BoderColor}},
-                bottom: {style:'thick', color: {argb:i.BoderColor}},
-                right: {style:'thick', color: {argb:i.BoderColor}}
+               /*  top: {style:'thick', color: {argb:i.BorderColor}},
+                left: {style:'thick', color: {argb:i.BorderColor}},
+                bottom: {style:'thick', color: {argb:i.BorderColor}},
+                right: {style:'thick', color: {argb:i.BorderColor}} */
+                top: {style:i.BorderStyle ? i.BorderStyle : '', color: {argb:i.BorderColor}},
+                left: {style:i.BorderStyle ? i.BorderStyle : '', color: {argb:i.BorderColor}},
+                bottom: {style:i.BorderStyle ? i.BorderStyle : '', color: {argb:i.BorderColor}},
+                right: {style:i.BorderStyle ? i.BorderStyle : '', color: {argb:i.BorderColor}}
             };
         }
         if(i.font){
@@ -88,6 +92,43 @@ function _setCellStyle(worksheet,cellStyleOptions){
                 //bold:true
             };
         }
+    })
+}
+
+/*
+    单独设置 excel cell的注解  ，后期扩展富文本
+*/
+function _setCellNote(worksheet,rowIndex,cellIndex,noteDTO,poolText = true){
+    let _cellName = getCellPosLetter(cellIndex|| 1,rowIndex || 1),
+    _note = {
+        protection:{
+            locked: noteDTO.protection.locked,
+            lockText: noteDTO.protection.lockText
+        },
+        editAs:noteDTO.editAs
+    }
+    if(poolText){
+        _note.texts = [
+            {'font': {'bold': true, 'size': 11, 'color': {'argb': 'ff696969','theme': 1}, 'name': '宋体', 'family': 2, 'scheme': 'minor'}, 'text': noteDTO.text}
+        ]
+    }else{
+        //富文本text
+    }
+
+    worksheet.getCell(_cellName).note = _note;
+}
+/*
+    根据rowindex,cellindex   设置列 注解
+    rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+    noteDatas : [NOTE_DTO,NOTE_DTO]
+    note:{} 
+*/
+function _setCellNotes(worksheet){
+    this.setCellNotesIndex.forEach(i=>{
+        let [rowIndex,cellIndex] = i.ROW_CELL_INDEX,
+        noteDTO = i.NOTE_DTO
+
+        _setCellNote(worksheet,rowIndex,cellIndex,noteDTO);
     })
 }
 
@@ -193,6 +234,9 @@ function _setRowStyle(worksheet,rowStyleOptions){
     })
 }
 
+
+
+
 function _isBasicType(wr){
     if(getType(wr.sheetColumnsData) !== 'Array'){
         conErr(ALERT_MESSAGE.MUST_COLUMN_TYPE);
@@ -232,7 +276,7 @@ function isObject(target){
 
 export {
     getCellPosLetter,conWar,conErr,conLog,
-    _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,
+    _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,_setCellNotes,
     _isBasicType,_getWorkBook,getType,
     isObject
 }

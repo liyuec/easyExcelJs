@@ -6,7 +6,8 @@ const ALERT_MESSAGE = {
     'MUST_FILENAME':'excel名称不能为空',
     'MAX_INTEGER':'不要超过integer最大值',
     'OBJECT_TYPE':'必须传入非Null的O对象',
-    'ROWCELL_INDEX_TYPE':'rowCellIndex必须是数组类型， [[rowIndex,cellIndex],[rowIndex,cellIndex]]'
+    'ROWCELL_INDEX_TYPE':'rowCellIndex必须是数组类型， [[rowIndex,cellIndex],[rowIndex,cellIndex]]',
+    'NOTES_INDEX_TYPE':'NOTES必须是数组类型， [noteDTO,noteDTO]',
 }
 
 

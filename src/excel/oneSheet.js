@@ -1,9 +1,9 @@
 const ExcelJS = require('exceljs');
 import {saveAs} from "file-saver";
-import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,_setRowStyle,_isBasicType,_getWorkBook,getType,isObject} from '../help/function';
+import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,_setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
 import {baseModel} from './excelDto';
-import {getExcelCellStyle} from '../template/index';
+import {getExcelCellStyle,getExcelCellNoteDTO} from '../template/index';
 
 /*
     只创建一个sheet的excel，以后版本提供多个sheet
@@ -79,7 +79,9 @@ function createExcelByOneSheet(options){
     //保存的cell样式设置    (setCellStyleByWhere 方法进入)
     this.setCellByWhere = [];
     //保存 cell样式设置   (setCellStyleByRowCellIndex 方法进入)
-    this.setCellByRowCellIndex = []
+    this.setCellByRowCellIndex = [];
+    //保存 cell 注解 (setCellNoteByRowCellIndex 方法进入)
+    this.setCellNotesIndex = [];
 }   
 
 /*
@@ -125,6 +127,11 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
             _setCellByRowCellIndex.call(this,worksheet)
         }
         //_setCellStyle(worksheet,this.cellStyleOptions);
+
+        //根据 rowIndex,cellIndex 设置列 注解
+        if(this.setCellNotesIndex.length > 0 ){
+            _setCellNotes.call(this,worksheet);
+        }
         
         this.excelFileName = this.excelFileName.lastIndexOf('.xlsx') > -1 ? this.excelFileName : this.excelFileName + '.xlsx';
     
@@ -191,6 +198,32 @@ createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellInd
 
     return this;
 
+}
+
+
+/*
+    通过cell和row的索引设置列 注解  
+    rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+    noteTexts : [string,string] 
+*/
+createExcelByOneSheet.prototype.setCellNoteTextByRowCellIndex = function(rowCellIndex,noteTexts){
+    if(rowCellIndex.constructor === Array || noteDatas.constructor === Array){
+        rowCellIndex.forEach((i,index)=>{
+            let _getExcelCellNoteDTO = new getExcelCellNoteDTO();
+            _getExcelCellNoteDTO.text = noteTexts[index]
+            this.setCellNotesIndex.push({
+                ROW_CELL_INDEX:i,
+                NOTE_DTO:_getExcelCellNoteDTO
+            })
+        })
+       
+    }else{
+        conErr(ALERT_MESSAGE.ROWCELL_INDEX_TYPE)
+        conErr(ALERT_MESSAGE.NOTES_INDEX_TYPE)
+        return;
+    }
+
+    return this;
 }
 
 

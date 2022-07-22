@@ -17,7 +17,8 @@ function CellStyleDTO(){
             cellIndex:1,
             rowIndex:1,
             cellName:'',
-            BoderColor:'',
+            BorderColor:'',
+            BorderStyle:'',
             font:{
                 name:'',
                 size:'',
@@ -30,8 +31,27 @@ function CellStyleDTO(){
     return obj;
 }
 
+/*
+    注解实体
+*/
+function CellNoteDTO(){
+    let obj = new Object(
+        {
+            text:'',
+            protection: {
+                locked: true,
+                lockText: false
+            },
+            //twoCells  oneCells    absolute
+            editAs: 'absolute'
+        }
+    )
+
+    return obj;
+}
+
 
 
 export {
-    baseModel,CellStyleDTO
+    baseModel,CellStyleDTO,CellNoteDTO
 }

@@ -1,4 +1,4 @@
-import {CellStyleDTO} from '../excel/excelDto'
+import {CellStyleDTO,CellNoteDTO} from '../excel/excelDto'
 
 /*
     argba 在线颜色 转换 https://sunpma.com/other/rgb/
@@ -17,7 +17,8 @@ const ExcelStyleTemplate = {
         },
         cellStyle:{
             cellName:'',
-            BoderColor: 'FFFF0000',
+            BorderColor: 'FFFF0000',
+            BorderStyle:'hair',
             font:{
                 name:'Arial',
                 size:11,
@@ -39,7 +40,8 @@ const ExcelStyleTemplate = {
         },
         cellStyle:{
             cellName:'',
-            BoderColor: 'ff48c9b0',
+            BorderColor: 'ff48c9b0',
+            BorderStyle:'hair',
             font:{
                 name:'Arial',
                 size:11,
@@ -61,7 +63,8 @@ const ExcelStyleTemplate = {
         },
         cellStyle:{
             cellName:'',
-            BoderColor: 'ffff0000',
+            BorderColor: 'ffff0000',
+            BorderStyle:'hair',
             font:{
                 name:'Arial',
                 size:11,
@@ -76,7 +79,8 @@ const getExcelCellStyle = function(colorTemplate){
     var cellStyle = new CellStyleDTO();
     switch(colorTemplate){
         case "red":
-            cellStyle.BoderColor = 'ffff0000'
+            cellStyle.BorderColor = 'ffff0000'
+            cellStyle.BorderStyle = 'hair'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
                 size:11,
@@ -85,7 +89,8 @@ const getExcelCellStyle = function(colorTemplate){
             }
         break;
         case "blue":
-            cellStyle.BoderColor = 'ff5faee3'
+            cellStyle.BorderColor = 'ff5faee3'
+            cellStyle.BorderStyle = 'hair'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
                 size:11,
@@ -94,7 +99,8 @@ const getExcelCellStyle = function(colorTemplate){
             }
         break;
         case "green":
-            cellStyle.BoderColor = 'ff48c9b0'
+            cellStyle.BorderColor = 'ff48c9b0'
+            cellStyle.BorderStyle = 'hair'
             cellStyle.font = {
                 name:'Malgun Gothic Semilight',
                 size:11,
@@ -103,7 +109,8 @@ const getExcelCellStyle = function(colorTemplate){
             }
         break;
         default:
-            cellStyle.BoderColor = ''
+            cellStyle.BorderColor = ''
+            cellStyle.BorderStyle = ''
             cellStyle.font = {
                 name:'宋体',
                 size:11,
@@ -117,6 +124,11 @@ const getExcelCellStyle = function(colorTemplate){
 }
 
 
+const getExcelCellNoteDTO = function(){
+    let NoteDTO = new CellNoteDTO();
+    return NoteDTO;
+}
+
 export {
-    ExcelStyleTemplate,getExcelCellStyle
+    ExcelStyleTemplate,getExcelCellStyle,getExcelCellNoteDTO
 }

@@ -129,6 +129,11 @@ const getExcelCellNoteDTO = function(){
     return NoteDTO;
 }
 
+
+const setPercentage = function(){
+    
+}
+
 export {
     ExcelStyleTemplate,getExcelCellStyle,getExcelCellNoteDTO
 }

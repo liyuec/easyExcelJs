@@ -8,6 +8,7 @@ const ALERT_MESSAGE = {
     'OBJECT_TYPE':'必须传入非Null的O对象',
     'ROWCELL_INDEX_TYPE':'rowCellIndex必须是数组类型， [[rowIndex,cellIndex],[rowIndex,cellIndex]]',
     'NOTES_INDEX_TYPE':'NOTES必须是数组类型， [noteDTO,noteDTO]',
+    'MUST_FUNCTION':'callBack必须是一个function'
 }
 
 

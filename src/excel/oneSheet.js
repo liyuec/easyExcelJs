@@ -1,6 +1,7 @@
 const ExcelJS = require('exceljs');
 import {saveAs} from "file-saver";
-import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,_setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes} from '../help/function';
+import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,clearExcelOptions,
+    _setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes,_setCurrentValue} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
 import {baseModel} from './excelDto';
 import {getExcelCellStyle,getExcelCellNoteDTO} from '../template/index';
@@ -82,6 +83,9 @@ function createExcelByOneSheet(options){
     this.setCellByRowCellIndex = [];
     //保存 cell 注解 (setCellNoteByRowCellIndex 方法进入)
     this.setCellNotesIndex = [];
+    //保存 用户自定义callback 修改 cellName的值
+    this.setCellByCustomIndex = [];
+    this.setCellByCustomCallback = [];
 }   
 
 /*
@@ -132,11 +136,18 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
         if(this.setCellNotesIndex.length > 0 ){
             _setCellNotes.call(this,worksheet);
         }
+
+        //根据 rowIndex,cellIndex 和 用户自定义callBack 对 每列值进行修改
+        if(this.setCellByCustomIndex.length > 0){
+            _setCurrentValue.call(this,worksheet);
+        }
+        
         
         this.excelFileName = this.excelFileName.lastIndexOf('.xlsx') > -1 ? this.excelFileName : this.excelFileName + '.xlsx';
         workbook.xlsx.writeBuffer().then((data => {
             const blob = new Blob([data], {type: ''});
             saveAs(blob, this.excelFileName);
+            clearExcelOptions.call(this)
         }))
     })
 }
@@ -226,12 +237,24 @@ createExcelByOneSheet.prototype.setCellNoteTextByRowCellIndex = function(rowCell
 }
 
 /*
-    根据行数,列数设置 类型, 百分比
+    根据行数,列数   找到value   根据用户自定义function   对value进行修改
     rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
-    noteTexts : [string,string] 
+    callBack  === function  自定义函数进行处理      callback可操作this范围的值
+    不要使用箭头函数，因为箭头函数无法call到当前this
 
 */
-createExcelByOneSheet.prototype.setPercentageByIndex = function(rowCellIndex){
+createExcelByOneSheet.prototype.customSetValueByIndex = function(rowCellIndex,callBack){
+    if(getType(callBack) !== 'Function'){
+        conErr(ALERT_MESSAGE.MUST_FUNCTION);
+        return;
+    }
+
+    rowCellIndex.forEach((i,index) => {
+        this.setCellByCustomIndex.push(i)
+    })
+
+    this.setCellByCustomCallback.push(callBack);
+    return this;
 
 }
 

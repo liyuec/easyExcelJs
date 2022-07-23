@@ -234,7 +234,19 @@ function _setRowStyle(worksheet,rowStyleOptions){
     })
 }
 
+//根据callback 修改当前 cellName的值
+function _setCurrentValue(worksheet){
+    let callback = this.setCellByCustomCallback[0];
 
+    this.setCellByCustomIndex.forEach(i=>{
+        let [cellIndex,rowIndex] = i,
+        _cellName = getCellPosLetter(cellIndex|| 1,rowIndex || 1);
+
+        let cell = worksheet.getCell(_cellName)
+
+        callback.call(this,cell)
+    }) 
+}
 
 
 function _isBasicType(wr){
@@ -272,11 +284,26 @@ function isObject(target){
     return target !== null && _toString.call(target).slice(8,-1) === 'Object'
 }
 
+function clearExcelOptions(){
+    this.sheetColumnsData = [];
+    this.sheetRowsData = [];
+    this.rowStyleOptions = [];
+    this.cellStyleOptions = [];
+    //保存的cell样式设置    (setCellStyleByWhere 方法进入)
+    this.setCellByWhere = [];
+    //保存 cell样式设置   (setCellStyleByRowCellIndex 方法进入)
+    this.setCellByRowCellIndex = [];
+    //保存 cell 注解 (setCellNoteByRowCellIndex 方法进入)
+    this.setCellNotesIndex = [];
+    //保存 用户自定义callback 修改 cellName的值
+    this.setCellByCustomIndex = [];
+    this.setCellByCustomCallback = [];
+}
 
 
 export {
     getCellPosLetter,conWar,conErr,conLog,
-    _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,_setCellNotes,
-    _isBasicType,_getWorkBook,getType,
+    _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,_setCellNotes,_setCurrentValue,
+    _isBasicType,_getWorkBook,getType,clearExcelOptions,
     isObject
 }

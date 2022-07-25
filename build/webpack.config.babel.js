@@ -15,6 +15,7 @@ export default {
         globalObject:'this',
         library:'easyExcel'
     },
+    //devtool:'source-map',
     externals: ['exceljs','file-saver'],
     module:{
         rules:[

@@ -3,7 +3,7 @@ import {saveAs} from "file-saver";
 import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,clearExcelOptions,
     _setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes,_setCurrentValue} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
-import {baseModel} from './excelDto';
+import {baseModel,customSetNodeList} from './excelDto';
 import {getExcelCellStyle,getExcelCellNoteDTO} from '../template/index';
 
 /*
@@ -84,8 +84,7 @@ function createExcelByOneSheet(options){
     //保存 cell 注解 (setCellNoteByRowCellIndex 方法进入)
     this.setCellNotesIndex = [];
     //保存 用户自定义callback 修改 cellName的值
-    this.setCellByCustomIndex = [];
-    this.setCellByCustomCallback = [];
+    this.customList = new customSetNodeList();
 }   
 
 /*
@@ -138,7 +137,7 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
         }
 
         //根据 rowIndex,cellIndex 和 用户自定义callBack 对 每列值进行修改
-        if(this.setCellByCustomIndex.length > 0){
+        if(this.customList.sizes > 0){
             _setCurrentValue.call(this,worksheet);
         }
         
@@ -238,7 +237,8 @@ createExcelByOneSheet.prototype.setCellNoteTextByRowCellIndex = function(rowCell
 
 /*
     根据行数,列数   找到value   根据用户自定义function   对value进行修改
-    rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+    rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]      
+    rowCellIndex:   '*'  则表示  除了头部的全部行和列
     callBack  === function  自定义函数进行处理      callback可操作this范围的值
     不要使用箭头函数，因为箭头函数无法call到当前this
 
@@ -249,13 +249,22 @@ createExcelByOneSheet.prototype.customSetValueByIndex = function(rowCellIndex,ca
         return;
     }
 
-    rowCellIndex.forEach((i,index) => {
-        this.setCellByCustomIndex.push(i)
-    })
-
-    this.setCellByCustomCallback.push(callBack);
+    let nodeObj = {
+        rowCellIndex:[],
+        callBack:undefined
+    }
+    // 42 === *
+    if(rowCellIndex.constructor !== Array && rowCellIndex.charCodeAt(0) === 42){
+        nodeObj.rowCellIndex = rowCellIndex
+    }else if(rowCellIndex.constructor === Array){
+        rowCellIndex.forEach((i,index) => {
+            nodeObj.rowCellIndex.push(i)
+        })
+    }
+ 
+    nodeObj.callBack = callBack;
+    this.customList.addNew(nodeObj)
     return this;
-
 }
 
 export default createExcelByOneSheet;

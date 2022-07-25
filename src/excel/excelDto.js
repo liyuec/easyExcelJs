@@ -51,7 +51,63 @@ function CellNoteDTO(){
 }
 
 
+/*
+    目前Babel6  不支持 #    难得换7
+    customSetValueByIndex   的链表结构NODE
+*/
+class customNode{
+  /*   next;
+    value; */
+    constructor(nodeObj){
+        this.next = undefined;
+        this.value = nodeObj
+    }
+    
+}
+/*
+    目前Babel6  不支持 #        难得换7
+    customSetValueByIndex   的链表结构 NodeList
+*/
+class customSetNodeList{
+   /*  #node = null
+    #size = 0
+    #tail = null
+    #head = null */
+    constructor(){
+        this.node = null
+        this.size = 0
+        this.tail = null
+        this.head = null
+        this.clear()
+    }
+
+    get sizes(){
+        return this.size;
+    }
+
+    addNew(nodeObj){
+        this.node = new customNode(nodeObj)
+        if(this.head){
+            this.tail.next = this.node;
+            this.tail = this.node;
+        }else{
+            this.tail = this.node;
+            this.head = this.node;
+        }
+        this.size++;
+    }
+
+    get getHead(){
+        return this.head;
+    }
+
+    clear(){
+        this.tail = null;
+        this.head = null;
+        this.size = 0;
+    }
+}
 
 export {
-    baseModel,CellStyleDTO,CellNoteDTO
+    baseModel,CellStyleDTO,CellNoteDTO,customSetNodeList
 }

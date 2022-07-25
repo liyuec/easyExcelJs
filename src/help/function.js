@@ -236,16 +236,56 @@ function _setRowStyle(worksheet,rowStyleOptions){
 
 //根据callback 修改当前 cellName的值
 function _setCurrentValue(worksheet){
-    let callback = this.setCellByCustomCallback[0];
+    //使用最后一个
+    //let callback = this.setCellByCustomCallback.slice(-1);
+    let _head = this.customList.getHead;
+    let _current = _head;
 
-    this.setCellByCustomIndex.forEach(i=>{
-        let [cellIndex,rowIndex] = i,
-        _cellName = getCellPosLetter(cellIndex|| 1,rowIndex || 1);
+    while(_current){
+        let {rowCellIndex,callBack} = _current.value;
 
-        let cell = worksheet.getCell(_cellName)
 
-        callback.call(this,cell)
-    }) 
+        if(getType(rowCellIndex) === 'Array'){
+            rowCellIndex.forEach( arrItem =>{
+                let [rowIndex,cellIndex] = arrItem,
+                _cellName = getCellPosLetter(cellIndex|| 1,rowIndex || 1);
+                let cell = worksheet.getCell(_cellName)
+                callBack.call(this,cell)
+            })
+        }
+        //42 == *  逻辑
+        else if(getType(rowCellIndex) === 'String' && rowCellIndex.charCodeAt(0) === 42){
+            //一共多少列
+            let columnLength = this.sheetColumnsData.length,
+            rowLength = this.sheetRowsData.length,
+            _cellName = '';
+
+            for(let row = 2;row<rowLength;row++){
+                for(let column = 1;column<columnLength;column++){
+                    _cellName  = getCellPosLetter(column|| 1,row || 1);
+                    let cell = worksheet.getCell(_cellName)
+                    callBack.call(this,cell)
+                }
+            }
+            
+        }
+
+        _current = _current.next;
+     
+    }
+
+   /*  this.setCellByCustomIndex.forEach(i=>{
+        if(getType(i) === 'Array'){
+            let [cellIndex,rowIndex] = i,
+            _cellName = getCellPosLetter(cellIndex|| 1,rowIndex || 1);
+            let cell = worksheet.getCell(_cellName)
+            callback.call(this,cell)
+        }
+        //42 == *  逻辑
+        else if(getType(i) === 'String' && i.charCodeAt(0) === 42){
+
+        }
+    })  */
 }
 
 
@@ -296,8 +336,7 @@ function clearExcelOptions(){
     //保存 cell 注解 (setCellNoteByRowCellIndex 方法进入)
     this.setCellNotesIndex = [];
     //保存 用户自定义callback 修改 cellName的值
-    this.setCellByCustomIndex = [];
-    this.setCellByCustomCallback = [];
+    this.customList.clear()
 }
 
 

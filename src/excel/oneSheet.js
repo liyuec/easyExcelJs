@@ -85,6 +85,8 @@ function createExcelByOneSheet(options){
     this.setCellNotesIndex = [];
     //保存 用户自定义callback 修改 cellName的值
     this.customList = new customSetNodeList();
+    //可能需要补充的rowLength
+    this.repairLength = 0;
 }   
 
 /*
@@ -242,8 +244,10 @@ createExcelByOneSheet.prototype.setCellNoteTextByRowCellIndex = function(rowCell
     callBack  === function  自定义函数进行处理      callback可操作this范围的值
     不要使用箭头函数，因为箭头函数无法call到当前this
 
+
+    repairLength:需要补充的row length 遍历
 */
-createExcelByOneSheet.prototype.customSetValueByIndex = function(rowCellIndex,callBack){
+createExcelByOneSheet.prototype.customSetValueByIndex = function(rowCellIndex,callBack,repairLength = 0){
     if(getType(callBack) !== 'Function'){
         conErr(ALERT_MESSAGE.MUST_FUNCTION);
         return;
@@ -263,6 +267,7 @@ createExcelByOneSheet.prototype.customSetValueByIndex = function(rowCellIndex,ca
     }
  
     nodeObj.callBack = callBack;
+    this.repairLength = repairLength;
     this.customList.addNew(nodeObj)
     return this;
 }

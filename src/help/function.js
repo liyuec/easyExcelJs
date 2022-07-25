@@ -257,9 +257,8 @@ function _setCurrentValue(worksheet){
         else if(getType(rowCellIndex) === 'String' && rowCellIndex.charCodeAt(0) === 42){
             //一共多少列
             let columnLength = this.sheetColumnsData.length,
-            rowLength = this.sheetRowsData.length,
+            rowLength = this.sheetRowsData.length + this.repairLength,
             _cellName = '';
-
             for(let row = 2;row<rowLength;row++){
                 for(let column = 1;column<columnLength;column++){
                     _cellName  = getCellPosLetter(column|| 1,row || 1);

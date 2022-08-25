@@ -16,9 +16,9 @@
 
 # 目录
 <ul>
-  <li><a href="#npm-install">安装</a></li>
-  <li><a href="#快速开始(生成一个Excel 以vue项目里使用为例)">快速开始</a></li>
-  <li><a href="#可见基本模板(1.0.0提供的3个可立即使用的模板)">可见基本模板</a></li>
+  <li><a href="#npm-install">npm install</a></li>
+  <li><a href="#快速开始生成一个excel-以vue项目里使用为例">快速开始</a></li>
+  <li><a href="#可见基本模板100提供的3个可立即使用的模板">可见基本模板</a></li>
   <li>
     <a href="#接口">其他使用</a>
     <ul>
@@ -114,13 +114,13 @@ const green = ExcelStyleTemplate.green;
 ```
 
 
-### red模板最终样式
+#### red模板最终样式
 ![red模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/red.png)
 
-### blue模板最终样式
+#### blue模板最终样式
 ![blue模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/blue.png)
 
-### green模板最终样式
+#### green模板最终样式
 ![green模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/green.png)
 
 ## 接下来准备

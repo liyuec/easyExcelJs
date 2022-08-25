@@ -16,7 +16,7 @@
 
 # 目录
 <ul>
-  <li><a href="#npminstall">npm install</a></li>
+  <li><a href="#npminstall">安装</a></li>
   <li><a href="#快速开始">快速开始</a></li>
   <li><a href="#可见基本模板">可见基本模板</a></li>
   <li>
@@ -38,7 +38,8 @@
 </ul>
 
 
-## npm install [⬆](#npminstall)<!-- Link generated with jump2header -->
+## 安装 [⬆](#npminstall)<!-- Link generated with jump2header -->
+## npm install 
 
 组件依附 [exceljs](https://github.com/exceljs/exceljs) 和 [file-saver](https://github.com/eligrey/FileSaver.js) 进行封装，需要install相关依赖；
 <p style="color:red;font-size:16px;">
@@ -51,7 +52,8 @@ npm install exceljs -S
 npm install file-saver -S
 ```
 
-## 快速开始 生成一个Excel  以vue项目里使用为例 [⬆](#快速开始)<!-- Link generated with jump2header -->
+## 快速开始 [⬆](#快速开始)<!-- Link generated with jump2header -->
+## 生成一个Excel  以vue项目里使用为例 [⬆](#快速开始)<!-- Link generated with jump2header -->
 ```javascript
 import {createExcelByOneSheet,ExcelStyleTemplate,getCellPosLetter} from "easyexceljs"
 
@@ -101,7 +103,8 @@ methods:{
 
 ```
 
-## 1.0.0提供的3个可立即使用的模板    [⬆](#可见基本模板)<!-- Link generated with jump2header -->
+## 可见基本模板  [⬆](#可见基本模板)<!-- Link generated with jump2header -->
+## 1.0.0提供的3个可立即使用的模板   
 ![模板展示](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/ExcelStyleTemplate_first.png)
 ```javascript
 //引入提供模板Style

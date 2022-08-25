@@ -1,6 +1,6 @@
 {
   "name": "easyexceljs",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "简单的操作生成漂亮的EXCEL，快速上手。提供漂亮模板直接使用",
   "main": "dist/index.umd.min.js",
   "scripts": {

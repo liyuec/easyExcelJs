@@ -4,7 +4,7 @@
 
 简单的操作生成漂亮的EXCEL，快速上手。提供漂亮模板直接使用
 
-### 若存在疑问和支持，请邮件2362259057#qq.com('#'替换为'@')
+### 若存在疑问和支持，请邮件2362259057#qq.com('#'替换为'@') 或则  isSues
 
 <p align="left">
     <img src="https://www.oscs1024.com/platform/badge/liyuec/easyExcelJs.svg" />
@@ -13,6 +13,23 @@
     <img src="https://img.shields.io/badge/converage-50%25-red" />
     <img src="https://img.shields.io/badge/version-1.0.0-lightgrey" />
 </p>
+
+<ul>
+  <li><a href="#导入">基本使用</a></li>
+  <li>
+    <a href="#接口">其他使用</a>
+    <ul>
+      <li><a href="#创建工作簿">创建工作簿</a></li>
+      <li><a href="#设置工作簿属性">设置工作簿属性</a></li>
+      <li><a href="#工作簿视图">工作簿视图</a></li>
+      <li><a href="#添加工作表">添加工作表</a></li>
+      <li><a href="#删除工作表">删除工作表</a></li>
+      <li><a href="#访问工作表">访问工作表</a></li>
+      <li><a href="#工作表状态">工作表状态</a></li>
+      <li><a href="#工作表属性">工作表属性</a></li>
+      <li><a href="#页面设置">页面设置</a></li>
+      <li><a href="#页眉和页脚">页眉和页脚</a></li>
+      <li>
 
 
 ## npm install

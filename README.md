@@ -310,7 +310,7 @@ const green = ExcelStyleTemplate.green;
 ```
 
 | 属性名            | 描述 |
-| ---------------- | ---------- | ----------- |
+| ---------------- | ----------- |
 | >          | 找到 大于 whereValue |
 | <         | 找到 小于 whereValue |
 | ==        | 找到 等于 whereValue的字段，并隐式类型转换 |

@@ -25,11 +25,13 @@
     <ul>
       <li><a href="#通过行数和列数获取Excel坐标">通过行数和列数获取Excel坐标</a></li>
       <li><a href="#通过Where条件设置Cell样式">通过Where条件设置Cell样式</a></li>
-      <li><a href="#通过指定行·列设置，Cell样式">通过指定行·列，设置Cell样式</a></li>
-      <li><a href="#通过指定行·列设置，Cell的注解">通过指定行·列，设置Cell的注解</a></li>
-      <li><a href="#通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack">通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack</a></li>
+      <li><a href="#通过指定行列设置cell样式">通过指定行·列，设置Cell样式</a></li>
+      <li><a href="#通过指定行列设置Cell的注解">通过指定行·列，设置Cell的注解</a></li>
+      <li><a href="#通过指定行列设置返回原始Cell用户可根据原始Cell进行callBack">通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack</a></li>
     </ul>
   </li>
+  <li><a href="#保存EXCEL">保存EXCEL</a></li>
+  <li><a href="#继续开发计划">继续开发计划</a></li>
 </ul>
 
 
@@ -419,35 +421,80 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 
 
 ## 通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack[⬆](#目录)<!-- Link generated with jump2header -->
-#### setCellNoteTextByRowCellIndex(rowCellIndex,noteTexts)  
-####  rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
-####  noteTexts : [string,string] 
+#### customSetValueByIndex(rowCellIndex,noteTexts,repairLength)  
+####  rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]] 或则 '*'
+####  callBack : function(cell){}    其中cell是得到每列的原始数据，可进行操作
+####  repairLength : int32   冗余行数  需要补充的row length 遍历，若head只有一行，则为1
+
+
+```javascript
+
+  import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
+   
+    const excelOptions = {
+          excelFileName: "XX公司年度报表",
+          sheetName:'本季度报表1'
+    };
+      //创建一个实例
+    const _createExcelByOneSheet = new createExcelByOneSheet(excelOptions);
+    /*
+      设置header , body
+      此处代码略，参照  “快速开始”
+    */
+
+    _createExcelByOneSheet
+    .customSetValueByIndex('*',function(cell){
+                //可打印cell 查看需要包含的属性
+                console.log(cell)
+                let {value} = cell;
+
+                if(typeof value == 'string'){
+                    if(value.indexOf('%') > -1){
+                      let _temp = value.replace('%','');
+                      if(!isNaN(parseFloat(_temp,10))){
+                          value = value.replace('%','');
+                          cell.value = value / 100;
+                          cell.numFmt = '0.00%';
+                      }
+                    }else if(!isNaN(parseFloat(value,10))){
+                      cell.value = parseFloat(value,10);
+                    }
+                }
+      },2)
+      .customSetValueByIndex([[1,1],[1,2]],function(cell){
+          //做和业务相关的事
+      })
+
+```
 
 
 
+## 保存EXCEL[⬆](#目录)<!-- Link generated with jump2header -->
+#### saveAsExcel  其中保存完毕后，所有的设置将会清空
+
+```javascript
+
+  import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
+   
+    const excelOptions = {
+          excelFileName: "XX公司年度报表",
+          sheetName:'本季度报表1'
+    };
+      //创建一个实例
+    const _createExcelByOneSheet = new createExcelByOneSheet(excelOptions);
+    /*
+      设置header , body
+      此处代码略，参照  “快速开始”
+    */
+
+   _createExcelByOneSheet.saveAsExcel()
+
+```
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## 接下来准备
--   整行样式设置（字体，字号，颜色，背景色）
--   列：图片引入
--   列：链接引入
--   非常容易和轻松的对单独列边框设置（强调部分数据效果）
--   非常容易和轻松的对单独列样式（强调非边框外的效果）
--   提供更多 可直接使用的模板
--   提供 单excel里多个sheet 的构造
+## 继续开发计划[⬆](#目录)<!-- Link generated with jump2header -->
+-   方便的表头合并
+-   方便的列合并
+-   生成在线预览Excel
+-   typeScipt重写
 -   编写测试用例，增加覆盖率

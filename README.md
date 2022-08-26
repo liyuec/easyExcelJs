@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/size-6.56kb-blue" />
     <img src="https://img.shields.io/badge/license-MIT-orange" />
     <img src="https://img.shields.io/badge/converage-50%25-red" />
-    <img src="https://img.shields.io/badge/version-1.0.0-lightgrey" />
+    <img src="https://img.shields.io/badge/version-1.0.0-lightgrey" />,
 </p>
 
 # 目录
@@ -19,22 +19,14 @@
   <li><a href="#npm-install">npm install</a></li>
   <li><a href="#快速开始生成一个excel-以vue项目里使用为例">快速开始</a></li>
   <li><a href="#可见基本模板100提供的3个可立即使用的模板">可见基本模板</a></li>
+  <li><a href="#可见基本模板100提供的3个可立即使用的模板">提供的模板对象</a></li>
   <li>
     <a href="#接口">其他使用</a>
     <ul>
-      <li><a href="#创建工作簿">创建工作簿</a></li>
-      <li><a href="#设置工作簿属性">设置工作簿属性</a></li>
-      <li><a href="#工作簿视图">工作簿视图</a></li>
-      <li><a href="#添加工作表">添加工作表</a></li>
-      <li><a href="#删除工作表">删除工作表</a></li>
-      <li><a href="#访问工作表">访问工作表</a></li>
-      <li><a href="#工作表状态">工作表状态</a></li>
-      <li><a href="#工作表属性">工作表属性</a></li>
-      <li><a href="#页面设置">页面设置</a></li>
-      <li><a href="#页眉和页脚">页眉和页脚</a></li>
-      <li>
+      <li><a href="#通过行数和列数获取Excel坐标">通过行数和列数获取Excel坐标</a></li>
+      <li><a href="#通过Where条件设置Cell样式">通过Where条件设置Cell样式</a></li>
     </ul>
-    </li>
+  </li>
 </ul>
 
 
@@ -76,12 +68,18 @@ methods:{
         //选择整个excel的样式  目前一共3个
          const red = ExcelStyleTemplate.red;
 
-        //需要对应到列   其中header,key,width必传,  key 对应 bodyArray的key ， header为显示内容，width为每列宽度
+        /*需要对应到列   
+            其中header,key,width必传,  
+            key 对应 bodyArray的key ，body中每行需对应的key
+            header为第1行head显示的可见内容，比如 keyFiled1 对应的 title:“字段名称”，
+            width为每列宽度
+        
+        */
         headArray.forEach((i) => {
             _head.push({
             header: i.title,
             key: i.field,
-            width: 25,
+            width: 25
             });
         });
 
@@ -102,6 +100,7 @@ methods:{
 ```
 
 ## 可见基本模板(1.0.0提供的3个可立即使用的模板)[⬆](#目录)<!-- Link generated with jump2header -->
+
 ![模板展示](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/ExcelStyleTemplate_first.png)
 ```javascript
 //引入提供模板Style
@@ -113,7 +112,6 @@ const blue = ExcelStyleTemplate.blue;
 const green = ExcelStyleTemplate.green;
 ```
 
-
 #### red模板最终样式
 ![red模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/red.png)
 
@@ -122,6 +120,219 @@ const green = ExcelStyleTemplate.green;
 
 #### green模板最终样式
 ![green模板样式](https://raw.githubusercontent.com/liyuec/pictures/main/easyExceljs/green.png)
+
+
+
+
+## 提供的模板对象[⬆](#目录)<!-- Link generated with jump2header -->
+#### 默认提供如下样式的模板对象，可根据需求自行修改颜色， 建议不要更改属性，方便兼容
+```javascript
+  import {ExcelStyleTemplate,getExcelCellStyle} from "easyexceljs"
+
+  //默认结构，未考虑版本兼容，可以理解为baseDTO
+  CellStyleDTO(){
+    let obj = new Object(
+        {
+            cellIndex:1,
+            rowIndex:1,
+            cellName:'',
+            BorderColor:'',
+            BorderStyle:'',
+            font:{
+                name:'',
+                size:'',
+                bold:'',
+                color:''
+            }
+        }
+    )
+
+    return obj;
+  }
+  
+  //获取基本的cell样式，可自行根据需求更改颜色，字体大小，字体等
+  getExcelCellStyle = function(colorTemplate){
+    var cellStyle = new CellStyleDTO();
+    switch(colorTemplate){
+        case "red":
+            cellStyle.BorderColor = 'ffff0000'
+            cellStyle.BorderStyle = 'thin'
+            cellStyle.font = {
+                name:'Malgun Gothic Semilight',
+                size:11,
+                bold:true,
+                color:'ffff0000'
+            }
+        break;
+        case "blue":
+            cellStyle.BorderColor = 'ff5faee3'
+            cellStyle.BorderStyle = 'thin'
+            cellStyle.font = {
+                name:'Malgun Gothic Semilight',
+                size:11,
+                bold:true,
+                color:'ff5faee3'
+            }
+        break;
+        case "green":
+            cellStyle.BorderColor = 'ff48c9b0'
+            cellStyle.BorderStyle = 'thin'
+            cellStyle.font = {
+                name:'Malgun Gothic Semilight',
+                size:11,
+                bold:true,
+                color:'ff48c9b0'
+            }
+        break;
+        default:
+            cellStyle.BorderColor = ''
+            cellStyle.BorderStyle = ''
+            cellStyle.font = {
+                name:'宋体',
+                size:11,
+                bold:false,
+                color:'ff000000'
+            }
+        break;
+    }
+
+    return cellStyle;
+}
+
+  //默认模板样式
+  ExcelStyleTemplate = {
+    'red': {
+        rowStyle:{
+            rowNum:1,
+            rowBgColor: 'FFFF0000',
+            font:{
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        },
+        cellStyle:{
+            cellName:'',
+            BorderColor: 'FFFF0000',
+            BorderStyle:'thin',
+            font:{
+                name:'Arial',
+                size:11,
+                bold:true,
+                color:'ff707b7c'
+            }
+        }
+    },
+    'blue':{
+        rowStyle:{
+            rowNum:1,
+            rowBgColor: 'ff5faee3',
+            font:{
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        },
+        cellStyle:{
+            cellName:'',
+            BorderColor: 'ff48c9b0',
+            BorderStyle:'thin',
+            font:{
+                name:'Arial',
+                size:11,
+                bold:true,
+                color:'ff707b7c'
+            }
+        }
+    },
+    'green':{
+        rowStyle:{
+            rowNum:1,
+            rowBgColor: 'ff48c9b0',
+            font:{
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        },
+        cellStyle:{
+            cellName:'',
+            BorderColor: 'ffff0000',
+            BorderStyle:'thin',
+            font:{
+                name:'Arial',
+                size:11,
+                bold:true,
+                color:'ff707b7c'
+            }
+        }
+    }
+}
+
+```
+
+## 通过行数和列数获取Excel坐标(#目录)<!-- Link generated with jump2header -->
+```javascript
+  import {getCellPosLetter} from "easyexceljs"
+
+  /*
+    比如传入 getCellPosLetter(1,1) 得到 A1  
+    传入 getCellPosLetter(27,1) 得到 AA1
+  */
+  getCellPosLetter(cellIndex,rowIndex)
+
+```
+
+## 通过Where条件设置Cell样式[⬆](#目录)<!-- Link generated with jump2header -->
+
+#### where数据结构
+```javascript
+   where:{
+        valueKey: '传入头部的key的值'
+        whereType: < | > | == | != | === | !== | indexOf | unIndexOf
+        whereValue: number | string
+    }
+```
+
+| 属性名            | 默认值 | 描述 |
+| ---------------- | ---------- | ----------- |
+| tabColor         | `undefined` | 标签的颜色 |
+| outlineLevelCol  | 0          | 工作表列大纲级别 |
+| outlineLevelRow  | 0          | 工作表行大纲级别 |
+| defaultRowHeight | 15         | 默认行高 |
+| defaultColWidth  | (optional) | 默认列宽 |
+| dyDescent        | 55         | TBD |
+
+```javascript
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 接下来准备
 -   整行样式设置（字体，字号，颜色，背景色）

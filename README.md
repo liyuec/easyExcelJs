@@ -25,6 +25,9 @@
     <ul>
       <li><a href="#通过行数和列数获取Excel坐标">通过行数和列数获取Excel坐标</a></li>
       <li><a href="#通过Where条件设置Cell样式">通过Where条件设置Cell样式</a></li>
+      <li><a href="#通过指定行·列设置，Cell样式">通过指定行·列，设置Cell样式</a></li>
+      <li><a href="#通过指定行·列设置，Cell的注解">通过指定行·列，设置Cell的注解</a></li>
+      <li><a href="#通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack">通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack</a></li>
     </ul>
   </li>
 </ul>
@@ -287,7 +290,7 @@ const green = ExcelStyleTemplate.green;
 ```
 
 ## 通过Where条件设置Cell样式[⬆](#目录)<!-- Link generated with jump2header -->
-
+#### 方法名称  setCellStyleByWhere
 #### where数据结构
 ```javascript
 
@@ -351,7 +354,7 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
       whereType:'indexOf',
       whereValue:'用户名'
     },
-    cellStyle = getExcelCellStyle('red);
+    cellStyle = getExcelCellStyle('red';
 
     _createExcelByOneSheet
     .setCellStyleByWhere(whereSelectByUserName,cellStyle)
@@ -360,9 +363,65 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 
 ```
 
+## 通过指定行·列设置，Cell样式[⬆](#目录)<!-- Link generated with jump2header -->
+
+#### setCellStyleByRowCellIndex(rowCellIndex,cellStyle)  
+####  rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+```javascript
+
+import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
+   
+    const excelOptions = {
+          excelFileName: "XX公司年度报表",
+          sheetName:'本季度报表1'
+    };
+      //创建一个实例
+    const _createExcelByOneSheet = new createExcelByOneSheet(excelOptions);
+    /*
+      设置header , body
+      此处代码略，参照  “快速开始”
+    */
+ 
+    let cellStyle = getExcelCellStyle('blue');
+
+    _createExcelByOneSheet
+    .setCellStyleByRowCellIndex([[rowIndex,cellIndex],[rowIndex,cellIndex]],cellStyle)
+    .setCellStyleByRowCellIndex([[rowIndex,cellIndex],[rowIndex,cellIndex]])
+
+```
+
+## 通过指定行·列设置，Cell的注解[⬆](#目录)<!-- Link generated with jump2header -->
+#### customSetValueByIndex(rowCellIndex,callBack,repairLength = 0)  
+####  rowCellIndex : [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+####  callBack : function()
+```javascript
+
+import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
+   
+    const excelOptions = {
+          excelFileName: "XX公司年度报表",
+          sheetName:'本季度报表1'
+    };
+      //创建一个实例
+    const _createExcelByOneSheet = new createExcelByOneSheet(excelOptions);
+    /*
+      设置header , body
+      此处代码略，参照  “快速开始”
+    */
+ 
+    let cellStyle = getExcelCellStyle('blue');
+
+    _createExcelByOneSheet
+    .setCellNoteTextByRowCellIndex([[rowIndex,cellIndex],[rowIndex,cellIndex]],['注册可以是任何内容，若存在特殊表情，需要依赖系统自身解析',''])
+    .setCellNoteTextByRowCellIndex([[rowIndex,cellIndex],[rowIndex,cellIndex]],['',''])
+
+```
 
 
-
+## 通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack[⬆](#目录)<!-- Link generated with jump2header -->
+#### setCellNoteTextByRowCellIndex(rowCellIndex,noteTexts)  
+####  rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+####  noteTexts : [string,string] 
 
 
 

@@ -274,7 +274,7 @@ const green = ExcelStyleTemplate.green;
 
 ```
 
-## 通过行数和列数获取Excel坐标(#目录)<!-- Link generated with jump2header -->
+## 通过行数和列数获取Excel坐标[⬆](#目录)<!-- Link generated with jump2header -->
 ```javascript
   import {getCellPosLetter} from "easyexceljs"
 
@@ -290,6 +290,18 @@ const green = ExcelStyleTemplate.green;
 
 #### where数据结构
 ```javascript
+
+  /*
+    where条件必传，结构见下段代码
+    cellStyle 可不指定，不指定将默认使用 默认样式
+
+    可以链式调用
+  */
+  setCellStyleByWhere(where,cellStyle)
+  /*
+    必传
+    若实体结构不正确，或则不包含对应的值，将忽略本次where条件
+  */
    where:{
         valueKey: '传入头部的key的值'
         whereType: < | > | == | != | === | !== | indexOf | unIndexOf
@@ -297,17 +309,54 @@ const green = ExcelStyleTemplate.green;
     }
 ```
 
-| 属性名            | 默认值 | 描述 |
+| 属性名            | 描述 |
 | ---------------- | ---------- | ----------- |
-| tabColor         | `undefined` | 标签的颜色 |
-| outlineLevelCol  | 0          | 工作表列大纲级别 |
-| outlineLevelRow  | 0          | 工作表行大纲级别 |
-| defaultRowHeight | 15         | 默认行高 |
-| defaultColWidth  | (optional) | 默认列宽 |
-| dyDescent        | 55         | TBD |
+| >          | 找到 大于 whereValue |
+| <         | 找到 小于 whereValue |
+| ==        | 找到 等于 whereValue的字段，并隐式类型转换 |
+| ===       | 找到 等于 whereValue的字段，并且进行类型判断 |
+| !==       | 找到 不等于 whereValue的字段，并且进行类型判断 |
+| indexOf   | 找到 包含 whereValue的字段，可以理解为左右模糊查询 |
+| unIndexOf   | 找到 不包含 whereValue的字段  |
+
+#### 参考使用代码
 
 ```javascript
 
+import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
+   
+    const excelOptions = {
+          excelFileName: "XX公司年度报表",
+          sheetName:'本季度报表1'
+    };
+      //创建一个实例
+    const _createExcelByOneSheet = new createExcelByOneSheet(excelOptions);
+    /*
+      设置header , body
+      此处代码略，参照  “快速开始”
+    */
+
+    let whereSelectByUserName = {
+      valueKey:'userName',
+      whereType:'indexOf',
+      whereValue:'李三'
+    },
+    whereSelectByUserId = {
+      valueKey:'userId',
+      whereType:'>',
+      whereValue:10000
+    },
+    whereSelectByNickName = {
+      valueKey:'NickName',
+      whereType:'indexOf',
+      whereValue:'用户名'
+    },
+    cellStyle = getExcelCellStyle('red);
+
+    _createExcelByOneSheet
+    .setCellStyleByWhere(whereSelectByUserName,cellStyle)
+    .setCellStyleByWhere(whereSelectByUserId,cellStyle)
+    .setCellStyleByWhere(whereSelectByUserId)
 
 ```
 

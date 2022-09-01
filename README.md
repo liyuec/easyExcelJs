@@ -393,9 +393,9 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 ```
 
 ## 通过指定行·列设置，Cell的注解[⬆](#目录)<!-- Link generated with jump2header -->
-#### customSetValueByIndex(rowCellIndex,callBack,repairLength = 0)  
+#### setCellNoteTextByRowCellIndex(rowCellIndex,noteTexts)  
 ####  rowCellIndex : [[rowIndex,cellIndex],[rowIndex,cellIndex]]
-####  callBack : function()
+####  noteTexts : [string,string] 
 ```javascript
 
 import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"

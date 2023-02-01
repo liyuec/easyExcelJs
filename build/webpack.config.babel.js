@@ -15,7 +15,11 @@ export default {
         globalObject:'this',
         library:'easyExcel'
     },
-    //devtool:'source-map',
+    devtool:'source-map',
+    optimization:{
+        minimize:false
+        //minimize:true
+    },
     externals: ['exceljs','file-saver'],
     module:{
         rules:[

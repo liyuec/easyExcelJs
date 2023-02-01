@@ -1,7 +1,7 @@
 const ExcelJS = require('exceljs');
 import {saveAs} from "file-saver";
 import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,clearExcelOptions,
-    _setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes,_setCurrentValue} from '../help/function';
+    _setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes,_setCurrentValue,_mergeCells,_alignmentCells,_setRichText,_setRowsHeight} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
 import {baseModel,customSetNodeList} from './excelDto';
 import {getExcelCellStyle,getExcelCellNoteDTO} from '../template/index';
@@ -87,6 +87,14 @@ function createExcelByOneSheet(options){
     this.customList = new customSetNodeList();
     //可能需要补充的rowLength
     this.repairLength = 0;
+    //合并单元格的list
+    this.mergeCellsList = [];
+    //居中，缩进的list
+    this.alignmentList = [];
+    //行高集合
+    this.rowsHeightList = [];
+    //富文本
+    this.richTextList = [];
 }   
 
 /*
@@ -138,12 +146,31 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
             _setCellNotes.call(this,worksheet);
         }
 
+        //合并单元格
+        if(this.mergeCellsList.length > 0){
+            _mergeCells.call(this,worksheet);
+        }
+         
+        //缩进,居中
+        if(this.alignmentList.length > 0){
+            _alignmentCells.call(this,worksheet);
+        }
+
+        //富文本
+        if(this.richTextList.length > 0){
+            _setRichText.call(this,worksheet);
+        }
+
+        //行高设置
+        if(this.rowsHeightList.length > 0){
+            _setRowsHeight.call(this,worksheet);
+        }
+
         //根据 rowIndex,cellIndex 和 用户自定义callBack 对 每列值进行修改
         if(this.customList.sizes > 0){
             _setCurrentValue.call(this,worksheet);
         }
-        
-        
+
         this.excelFileName = this.excelFileName.lastIndexOf('.xlsx') > -1 ? this.excelFileName : this.excelFileName + '.xlsx';
         workbook.xlsx.writeBuffer().then((data => {
             const blob = new Blob([data], {type: ''});
@@ -188,6 +215,8 @@ createExcelByOneSheet.prototype.setCellStyleByWhere = function(where,cellStyle =
 
 /*
     通过cell和row的索引设置列样式   rowCellIndex数据结构 = [[rowIndex,cellIndex],[rowIndex,cellIndex]]
+
+    一般用来整体设置样式
 */
 createExcelByOneSheet.prototype.setCellStyleByRowCellIndex = function(rowCellIndex,cellStyle = undefined){
     //如果没有设置任何样式  则默认样式
@@ -236,6 +265,120 @@ createExcelByOneSheet.prototype.setCellNoteTextByRowCellIndex = function(rowCell
 
     return this;
 }
+
+/*
+    柯里化
+    合并单元格
+    按照 'A4:B5'传入 
+    暂不支持   按开始行，开始列，结束行，结束列合并（相当于 K10:M12）  worksheet.mergeCells(10,11,12,13);
+*/
+createExcelByOneSheet.prototype.mergeCells = function(cellNames1){
+    if(cellNames1 === void 0){
+        return this;
+    }
+    let _super = this;
+    this.mergeCellsList.push(cellNames1)
+    let merFunc = function(cellNames2){
+        if(cellNames2 === void 0){
+            return _super;
+        }else{
+            if(getType(cellNames2) === 'String'){
+                _super.mergeCellsList.push(cellNames2)
+            }
+
+            return merFunc;
+        }
+    }
+    return merFunc;
+}
+
+/*
+    柯里化
+    单元格居中，缩进
+    {
+        cellName:'A1',
+        alignment:{}
+    }
+*/
+createExcelByOneSheet.prototype.alignmentCells = function(cellAligenObj){
+    if(cellAligenObj === void 0){
+        return this;
+    }
+    this.alignmentList.push(cellAligenObj);
+    let _super = this;
+    let alignmentFunc = function(cellAligenObj2){
+        if(cellAligenObj2 === void 0){
+            return _super;
+        }else{
+            if(getType(cellAligenObj2) === 'Object'){
+                _super.alignmentList.push(cellAligenObj2)
+            }
+            return alignmentFunc;
+        }
+    }
+    return alignmentFunc;
+}
+
+
+/*
+    柯里化
+    设置富文本
+    {
+        cellName:'A1',
+        richText:[]
+    }
+*/
+createExcelByOneSheet.prototype.RichTextCells = function(richTextObj){
+    if(richTextObj === void 0){
+        return this;
+    }
+    this.richTextList.push(richTextObj)
+    let _super = this;
+    let richTextFunc = function(richTextObj2){
+        if(richTextObj2 === void 0){
+            return _super;
+        }else{
+            if(getType(richTextObj2) === 'Object'){
+                _super.richTextList.push(richTextObj2)
+            }
+
+            return richTextFunc;
+        }
+    }
+    return richTextFunc;
+}
+
+/*
+    柯里化
+     设置行高
+    {
+        rowIndex:1,
+        height:
+    }
+*/
+createExcelByOneSheet.prototype.rowsHeight = function(rowObj){
+  
+    if(rowObj === void 0){
+        return this;
+    }
+    this.rowsHeightList.push(rowObj)
+    let _super = this;
+   
+    let rowsHeightFunc = function(rowObj2){
+        if(rowObj2 === void 0){
+            return _super;
+        }else{
+            if(getType(rowObj2) === 'Object'){
+                _super.rowsHeightList.push(rowObj2)
+            }
+
+            return rowsHeightFunc;
+        }
+    }
+    return rowsHeightFunc;
+}
+
+
 
 /*
     根据行数,列数   找到value   根据用户自定义function   对value进行修改

@@ -288,6 +288,60 @@ function _setCurrentValue(worksheet){
 }
 
 
+/*
+    合并单元格
+    按照 'A4:B5'传入 
+    暂不支持   按开始行，开始列，结束行，结束列合并（相当于 K10:M12）  worksheet.mergeCells(10,11,12,13);
+
+*/
+function _mergeCells(worksheet){
+    this.mergeCellsList.forEach(mergeNames=>{
+        worksheet.mergeCells(mergeNames);
+    })
+}
+
+/*
+    设置对齐，缩进
+    {
+        cellName:'A1',
+        alignment:{}
+    }
+*/
+function _alignmentCells(worksheet){
+    this.alignmentList.forEach(cellObj=>{
+        worksheet.getCell(cellObj.cellName).alignment = { ...cellObj.alignment };
+    })
+}
+
+/*
+    设置行高
+    {
+        rowIndex:1,
+        height:''
+    }
+*/
+function _setRowsHeight(worksheet){
+    this.rowsHeightList.forEach(rowObj=>{
+        let row = worksheet.getRow(rowObj.rowIndex);
+        row.height = rowObj.height ? rowObj.height : 15;
+        row.commit();
+    })
+}
+
+/**
+    设置富文本
+    {
+        cellName:'A1',
+        richText:[]
+    }
+ */
+function _setRichText(worksheet){
+    this.richTextList.forEach(richTextObj=>{
+        worksheet.getCell(richTextObj.cellName).value  = { 'richText': [...richTextObj.richText] };
+    })
+}
+
+
 function _isBasicType(wr){
     if(getType(wr.sheetColumnsData) !== 'Array'){
         conErr(ALERT_MESSAGE.MUST_COLUMN_TYPE);
@@ -336,12 +390,21 @@ function clearExcelOptions(){
     this.setCellNotesIndex = [];
     //保存 用户自定义callback 修改 cellName的值
     this.customList.clear()
+    //合并单元格
+    this.mergeCellsList = [];
+    //居中，缩进
+    this.alignmentList = [];
+    //富文本list
+    this.richTextList = [];
+    //行高集合
+    this.rowsHeightList = [];
 }
 
 
 export {
     getCellPosLetter,conWar,conErr,conLog,
     _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,_setCellNotes,_setCurrentValue,
-    _isBasicType,_getWorkBook,getType,clearExcelOptions,
+    _isBasicType,_getWorkBook,getType,_mergeCells,_alignmentCells,_setRichText,_setRowsHeight,
+    clearExcelOptions,
     isObject
 }

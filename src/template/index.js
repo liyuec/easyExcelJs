@@ -72,6 +72,29 @@ const ExcelStyleTemplate = {
                 color:'ff707b7c'
             }
         }
+    },
+    'firebrick':{
+        rowStyle:{
+            rowNum:1,
+            rowBgColor: 'ffb22222',
+            font:{
+                name:'Arial',
+                size:12,
+                bold:true,
+                color:'ffffffff'
+            }
+        },
+        cellStyle:{
+            cellName:'',
+            BorderColor: 'ffb22222',
+            BorderStyle:'thin',
+            font:{
+                name:'Arial',
+                size:11,
+                bold:true,
+                color:'ffb22222'
+            }
+        }
     }
 }
 
@@ -106,6 +129,16 @@ const getExcelCellStyle = function(colorTemplate){
                 size:11,
                 bold:true,
                 color:'ff48c9b0'
+            }
+        break;
+        case "firebrick":
+            cellStyle.BorderColor = 'ffb22222'
+            cellStyle.BorderStyle = 'thin'
+            cellStyle.font = {
+                name:'Malgun Gothic Semilight',
+                size:11,
+                bold:true,
+                color:'ffb22222'
             }
         break;
         default:

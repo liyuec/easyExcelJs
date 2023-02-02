@@ -367,7 +367,18 @@ function _setImageInWorkBookBase64(workBook,worksheet){
 
 
 function _setRowBgColor(worksheet){
-
+  /*   worksheet.getRow(5)._cells.forEach(cell=>{
+        cell.fill = {
+          type: 'gradient',
+          gradient: 'angle',
+          degree: 0,
+          stops: [
+            {position:0, color:{argb:'7ff1948a'}},
+            {position:0.5, color:{argb:'7ff1948a'}},
+            {position:1, color:{argb:'7ff1948a'}}
+          ]
+        };
+    }) */
 }
 
 function _isBasicType(wr){

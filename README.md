@@ -32,7 +32,8 @@
       <li><a href="#合并行列mergeCells">合并行列mergeCells</a></li>
       <li><a href="#单元格居中与缩进">单元格居中与缩进</a></li>
       <li><a href="#设置样式化富文本">设置样式化富文本</a></li>
-      <li><a href="#内容样式化设置">内容样式化设置</a></li>
+      <li><a href="#设置行高">设置行高</a></li>
+      <li><a href="#插入图片base64">插入图片base64</a></li>
     </ul>
   </li>
   <li><a href="#保存EXCEL">保存EXCEL</a></li>
@@ -532,6 +533,84 @@ _createExcelByOneSheet.mergeCells('B1:C1')('A1:A2')('D1:D2')('E1:F1')('G1:G2')()
   })
 
 ```
+
+## 设置样式化富文本[⬆](#目录)<!-- Link generated with jump2header --> 
+
+| 属性名            | 描述 |
+| ---------------- | ----------- |
+| cellName          | 行列号，比如'B3:B4','B3:C3'，若不传参数，则返回this |
+| richText          | [] |
+
+
+#### 柯里化函数，若不传参，则返回当前this
+```javascript
+//设置富文本的值
+        let B3richText = [
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '1. System UX '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': 'UX \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '1. a.ET system access permission(Stable) \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': 'b.ET Network stability  \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '2.Input form(Accepted by ET)'},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': ' C \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '3.Material attached(If needed) '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': ' C \n'},
+        ],
+        B4richText = [
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '1.Input form&Material by ET submitted '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': 'UX \n'},
+            {'font': {'bold': true,'size': 12,'color': {'argb': 'ff000000'}},'text': '2.System \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': 'a.TL system access permission(Stable) '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': ' CX \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': 'b.TL system Network stability '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': ' UX \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '3.Knowledge： '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}},'text': ' CX \n'},
+            {'font': {'size': 12,'color': {'argb': 'ff000000'}},'text': '4.Number available TL & coordinators  '},
+            {'font': {'bold': true,'size': 13,'color': {'argb': 'ffb22222'}} ,outline:false,'text': ' CX-Mace \n'},
+        ]
+        _createExcelByOneSheet.RichTextCells({cellName:'B3',richText:B3richText})
+       ({cellName:'B4',richText:B4richText})
+       ({cellName:'B5',richText:B4richText})();
+
+```
+
+## 设置行高[⬆](#目录)<!-- Link generated with jump2header --> 
+
+| 属性名            | 描述 |
+| ---------------- | ----------- |
+| rowIndex          | 行数，从1开始 |
+| height            | number,若不传入默认15 |
+
+```javascript
+//设置行高
+        _createExcelByOneSheet.rowsHeight
+        ({rowIndex:2,height:35})
+        ({rowIndex:3,height:100})
+        ({rowIndex:4,height:100})
+        ({rowIndex:5,height:100})
+        ({rowIndex:6,height:100})
+        ({rowIndex:7,height:100})()
+
+```
+
+
+## 插入图片base64[⬆](#目录)<!-- Link generated with jump2header --> 
+
+| 属性名            | 描述 |
+| ---------------- | ----------- |
+| base64Image          | 图片转base64 |
+| tl           | {col: 3.6, row: 2}  |
+| ext           | { width: 100, height: 200 }  |
+
+```javascript
+
+    //获取配图
+    var _canvas = document.querySelector("#_canvas"),
+    _base64Image = _canvas.toDataURL('image/png',1);
+    
+    _createExcelByOneSheet.ImageInWorkBookBase64({base64Image:_base64Image,tl:{col: 3.6, row: 2.4},ext:{ width: _canvas.width, height: _canvas.height }})
+```
+
 
 ## 保存EXCEL[⬆](#目录)<!-- Link generated with jump2header -->
 #### saveAsExcel  其中保存完毕后，所有的设置将会清空

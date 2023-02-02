@@ -636,8 +636,8 @@ _createExcelByOneSheet.mergeCells('B1:C1')('A1:A2')('D1:D2')('E1:F1')('G1:G2')()
 
 
 ## 继续开发计划[⬆](#目录)<!-- Link generated with jump2header -->
--   方便的表头合并
--   方便的列合并
+[-]   方便的表头合并
+[-]   方便的列合并
 -   生成在线预览Excel
 -   typeScipt重写
 -   编写测试用例，增加覆盖率

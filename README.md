@@ -20,14 +20,19 @@
   <li><a href="#快速开始生成一个excel-以vue项目里使用为例">快速开始</a></li>
   <li><a href="#可见基本模板100提供的3个可立即使用的模板">可见基本模板</a></li>
   <li><a href="#可见基本模板100提供的3个可立即使用的模板">提供的模板对象</a></li>
+  <li><a href="#easyExceljs使用DEMO地址">easyExceljs使用DEMO地址</a></li>
   <li>
-    <a href="#接口">其他使用</a>
+    <a href="#其他使用">其他使用</a>
     <ul>
       <li><a href="#通过行数和列数获取Excel坐标">通过行数和列数获取Excel坐标</a></li>
       <li><a href="#通过Where条件设置Cell样式">通过Where条件设置Cell样式</a></li>
       <li><a href="#通过指定行列设置cell样式">通过指定行·列，设置Cell样式</a></li>
       <li><a href="#通过指定行列设置Cell的注解">通过指定行·列，设置Cell的注解</a></li>
       <li><a href="#通过指定行列设置返回原始Cell用户可根据原始Cell进行callBack">通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack</a></li>
+      <li><a href="#合并行列mergeCells">合并行列mergeCells</a></li>
+      <li><a href="#内容样式化设置">内容样式化设置</a></li>
+      <li><a href="#内容样式化设置">内容样式化设置</a></li>
+      <li><a href="#内容样式化设置">内容样式化设置</a></li>
     </ul>
   </li>
   <li><a href="#保存EXCEL">保存EXCEL</a></li>
@@ -126,7 +131,8 @@ const green = ExcelStyleTemplate.green;
 #### green模板最终样式
 ![green模板样式](https://s1.ax1x.com/2023/02/02/pSr8LIf.png)
 
-
+#### 复杂表格示例
+![复杂表格示例](https://s1.ax1x.com/2023/02/02/pSrWQiT.png)
 
 
 ## 提供的模板对象[⬆](#目录)<!-- Link generated with jump2header -->
@@ -279,6 +285,10 @@ const green = ExcelStyleTemplate.green;
 
 ```
 
+
+## easyExceljs使用DEMO地址[⬆](#目录)<!-- Link generated with jump2header -->
+<a href="https://github.com/liyuec/easyExceljs-Demo">easyExceljs 使用DEMO地址</a>
+
 ## 通过行数和列数获取Excel坐标[⬆](#目录)<!-- Link generated with jump2header -->
 ```javascript
   import {getCellPosLetter} from "easyexceljs"
@@ -426,7 +436,6 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 ####  callBack : function(cell){}    其中cell是得到每列的原始数据，可进行操作
 ####  repairLength : int32   冗余行数  需要补充的row length 遍历，若head只有一行，则为1
 
-
 ```javascript
 
   import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
@@ -467,7 +476,20 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 
 ```
 
+## 合并行列mergeCells[⬆](#目录)<!-- Link generated with jump2header -->
+| 属性名            | 描述 |
+| ---------------- | ----------- |
+| cellName          | 行列号，比如'B3:B4','B3:C3'，若不传参数，则返回this |
 
+
+#### 柯里化函数，若不传参，则返回当前this
+
+```javascript
+
+//合并单元格
+_createExcelByOneSheet.mergeCells('B1:C1')('A1:A2')('D1:D2')('E1:F1')('G1:G2')();
+
+```
 
 ## 保存EXCEL[⬆](#目录)<!-- Link generated with jump2header -->
 #### saveAsExcel  其中保存完毕后，所有的设置将会清空

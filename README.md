@@ -30,8 +30,8 @@
       <li><a href="#通过指定行列设置Cell的注解">通过指定行·列，设置Cell的注解</a></li>
       <li><a href="#通过指定行列设置返回原始Cell用户可根据原始Cell进行callBack">通过指定行·列设置，返回原始Cell，用户可根据原始Cell进行callBack</a></li>
       <li><a href="#合并行列mergeCells">合并行列mergeCells</a></li>
-      <li><a href="#内容样式化设置">内容样式化设置</a></li>
-      <li><a href="#内容样式化设置">内容样式化设置</a></li>
+      <li><a href="#单元格居中与缩进">单元格居中与缩进</a></li>
+      <li><a href="#设置样式化富文本">设置样式化富文本</a></li>
       <li><a href="#内容样式化设置">内容样式化设置</a></li>
     </ul>
   </li>
@@ -477,6 +477,7 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 ```
 
 ## 合并行列mergeCells[⬆](#目录)<!-- Link generated with jump2header -->
+
 | 属性名            | 描述 |
 | ---------------- | ----------- |
 | cellName          | 行列号，比如'B3:B4','B3:C3'，若不传参数，则返回this |
@@ -488,6 +489,47 @@ import {createExcelByOneSheet,getExcelCellStyle} from "easyexceljs"
 
 //合并单元格
 _createExcelByOneSheet.mergeCells('B1:C1')('A1:A2')('D1:D2')('E1:F1')('G1:G2')();
+
+```
+
+## 单元格居中与缩进[⬆](#目录)<!-- Link generated with jump2header --> 
+
+| 属性名            | 描述 |
+| ---------------- | ----------- |
+| cellName          | 行列号，比如'B3:B4','B3:C3'，若不传参数，则返回this |
+| alignment          | { vertical: 'middle', horizontal: 'center' ,wrapText: true} |
+
+
+| alignment            | 描述 |
+| ---------------- | ----------- |
+| vertical,horizontal         | left：居左 ,right:居右,center：居中。 |
+| wrapText          | true：自动换行 , false:不换行 |
+
+#### 柯里化函数，若不传参，则返回当前this
+
+```javascript
+//控制合并后的格式   各cell 配置
+ let alignObj =  { vertical: 'middle', horizontal: 'center' ,wrapText: true},
+  alignContent = {vertical: 'middle', horizontal: 'left' ,wrapText: true};
+        
+  _createExcelByOneSheet.alignmentCells({cellName:'B1:C1',alignment:alignObj})
+  ({cellName:'A1:A2',alignment:alignObj})({cellName:'D1:D2',alignment:alignObj})
+  ({cellName:'E1:F1',alignment:alignObj})({cellName:'G1:G2',alignment:alignObj})
+  ({cellName:'B2',alignment:alignObj})({cellName:'C2',alignment:alignObj})
+  ({cellName:'E2',alignment:alignObj})({cellName:'F2',alignment:alignObj});
+
+  //其他相似列列处理
+  let otherCells = [];
+  otherCells = [3,4,5,6].map(num=>{
+    return ['A','B','C','D','E','F','G'].map(letter=>{
+      let res = letter+num
+      return res
+    })
+  })
+  otherCells = otherCells.flat();
+  otherCells.forEach(cellName=>{
+    _createExcelByOneSheet.alignmentCells({cellName:cellName,alignment:alignContent})
+  })
 
 ```
 

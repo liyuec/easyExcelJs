@@ -363,7 +363,11 @@ function _setImageInWorkBookBase64(workBook,worksheet){
             ext: imageObj.ext
         });
     })
-    
+}
+
+
+function _setRowBgColor(worksheet){
+
 }
 
 function _isBasicType(wr){

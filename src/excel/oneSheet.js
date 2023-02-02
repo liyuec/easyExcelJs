@@ -1,7 +1,7 @@
 const ExcelJS = require('exceljs');
 import {saveAs} from "file-saver";
 import {getCellPosLetter,conWar,conErr,conLog,_setCellStyleByWhere,_setCellByRowCellIndex,clearExcelOptions,
-    _setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes,_setCurrentValue,_mergeCells,_alignmentCells,_setRichText,_setRowsHeight} from '../help/function';
+    _setRowStyle,_isBasicType,_getWorkBook,getType,isObject,_setCellNotes,_setCurrentValue,_mergeCells,_alignmentCells,_setRichText,_setRowsHeight,_setImageInWorkBookBase64} from '../help/function';
 import {ALERT_MESSAGE} from '../help/message';
 import {baseModel,customSetNodeList} from './excelDto';
 import {getExcelCellStyle,getExcelCellNoteDTO} from '../template/index';
@@ -95,6 +95,8 @@ function createExcelByOneSheet(options){
     this.rowsHeightList = [];
     //富文本
     this.richTextList = [];
+    //image插入集合
+    this.imageBase64List = [];
 }   
 
 /*
@@ -164,6 +166,11 @@ createExcelByOneSheet.prototype.saveAsExcel = function(){
         //行高设置
         if(this.rowsHeightList.length > 0){
             _setRowsHeight.call(this,worksheet);
+        }
+
+        //插入图片
+        if(this.imageBase64List.length > 0){
+            _setImageInWorkBookBase64.call(this,workbook,worksheet)
         }
 
         //根据 rowIndex,cellIndex 和 用户自定义callBack 对 每列值进行修改
@@ -378,6 +385,36 @@ createExcelByOneSheet.prototype.rowsHeight = function(rowObj){
     return rowsHeightFunc;
 }
 
+/*
+    柯里化
+    设置workBook的image，该func只支持base64
+    默认png
+
+    {
+        base64Image,
+        tl:{ col: 0, row: 0 },
+        ext:{ width: 500, height: 200 }
+    }
+*/
+createExcelByOneSheet.prototype.ImageInWorkBookBase64 = function(imageObj){
+    if(imageObj === void 0){
+        return this;
+    }
+    this.imageBase64List.push(imageObj);
+    let _super = this,
+    imageBsee64Func = function(imageObj2){
+        if(imageObj2 === void 0){
+            return _super;
+        }else{
+            this.imageBase64List.push(imageObj2);
+            return imageBsee64Func;
+        }
+    }
+
+    return imageBsee64Func;
+    
+    
+}
 
 
 /*

@@ -341,6 +341,30 @@ function _setRichText(worksheet){
     })
 }
 
+/*
+    设置workBook的image，该func只支持base64
+    默认png
+
+    {
+        base64Image,
+        tl:{ col: 0, row: 0 },
+        ext:{ width: 500, height: 200 }
+    }
+*/
+function _setImageInWorkBookBase64(workBook,worksheet){
+    this.imageBase64List.forEach(imageObj =>{
+        let imageId = workBook.addImage({
+            base64: imageObj.base64Image,
+            extension: 'png',
+        });
+        //worksheet.addImage(imageId, imageObj.cellName);
+        worksheet.addImage(imageId, {
+            tl: imageObj.tl,
+            ext: imageObj.ext
+        });
+    })
+    
+}
 
 function _isBasicType(wr){
     if(getType(wr.sheetColumnsData) !== 'Array'){
@@ -398,13 +422,15 @@ function clearExcelOptions(){
     this.richTextList = [];
     //行高集合
     this.rowsHeightList = [];
+    //base64的图片集合
+    this.imageBase64List = [];
 }
 
 
 export {
     getCellPosLetter,conWar,conErr,conLog,
     _setCellStyle,_setRowStyle,_setCellStyleByWhere,_setCellByRowCellIndex,_setCellNotes,_setCurrentValue,
-    _isBasicType,_getWorkBook,getType,_mergeCells,_alignmentCells,_setRichText,_setRowsHeight,
+    _isBasicType,_getWorkBook,getType,_mergeCells,_alignmentCells,_setRichText,_setRowsHeight,_setImageInWorkBookBase64,
     clearExcelOptions,
     isObject
 }

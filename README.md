@@ -641,3 +641,4 @@ _createExcelByOneSheet.mergeCells('B1:C1')('A1:A2')('D1:D2')('E1:F1')('G1:G2')()
 - [ ]    生成在线预览Excel
 - [ ]    typeScipt重写
 - [ ]    编写测试用例，增加覆盖率
+- [ ]
